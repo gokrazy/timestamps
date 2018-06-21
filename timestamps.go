@@ -37,7 +37,10 @@ func getBootTimestamp() (time.Time, error) {
 }
 
 func getRootTimestamp() (time.Time, error) {
-	st, err := os.Stat("/hostname")
+	st, err := os.Stat("/etc/hostname")
+	if err != nil && os.IsNotExist(err) {
+		st, err = os.Stat("/hostname")
+	}
 	if err != nil {
 		return time.Time{}, err
 	}
