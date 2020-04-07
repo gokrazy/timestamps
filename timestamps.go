@@ -24,7 +24,7 @@ var (
 )
 
 func getBootTimestamp() (time.Time, error) {
-	f, err := os.OpenFile(rootdev.MustFind()+"1", os.O_RDONLY, 0600)
+	f, err := os.OpenFile(rootdev.Partition(rootdev.Boot), os.O_RDONLY, 0600)
 	if err != nil {
 		return time.Time{}, err
 	}
