@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -79,7 +80,17 @@ func main() {
 			log.Fatal(err)
 		}
 
-		log.Printf("timestamps: boot: %v, root: %v", bootT, rootT)
+		timestamps := fmt.Sprintf("timestamps: boot: %v, root: %v (boot=%d root=%d)",
+			bootT,
+			rootT,
+			bootT.Unix(),
+			rootT.Unix())
+		log.Print(timestamps)
+
+		// The console may be monitored by another machine via serial:
+		if err := ioutil.WriteFile("/dev/console", []byte(timestamps), 0644); err != nil {
+			log.Fatal(err)
+		}
 
 		mustDropPrivileges(bootT, rootT)
 	}
