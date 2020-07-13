@@ -80,7 +80,7 @@ func main() {
 			log.Fatal(err)
 		}
 
-		timestamps := fmt.Sprintf("timestamps: boot: %v, root: %v (boot=%d root=%d)",
+		timestamps := fmt.Sprintf("timestamps: boot: %v, root: %v (boot=%d root=%d)\n",
 			bootT,
 			rootT,
 			bootT.Unix(),
