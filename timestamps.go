@@ -88,7 +88,12 @@ func main() {
 		log.Print(timestamps)
 
 		// The console may be monitored by another machine via serial:
-		if err := ioutil.WriteFile("/dev/console", []byte(timestamps), 0644); err != nil {
+		//
+		// We used to print to /dev/console, but that output is often interleaved
+		// with kernel dmesg output which is also configured to go to the serial
+		// port. Instead of fighting with the kernel message system, we embrace it
+		// and just log our own success message through it :)
+		if err := ioutil.WriteFile("/dev/kmsg", []byte(timestamps), 0644); err != nil {
 			log.Fatal(err)
 		}
 
